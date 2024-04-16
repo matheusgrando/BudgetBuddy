@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import org.hibernate.annotations.NotFound;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import br.com.fiap.budgetbuddy.validation.TipoMovimentacao;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,6 +36,7 @@ public class Movimentacao {
     private BigDecimal valor;
 
     @Past
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate data;
 
     @TipoMovimentacao
