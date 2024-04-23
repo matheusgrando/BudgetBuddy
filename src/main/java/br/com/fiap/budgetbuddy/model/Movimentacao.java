@@ -3,24 +3,28 @@ package br.com.fiap.budgetbuddy.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import org.hibernate.annotations.NotFound;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.fiap.budgetbuddy.validation.TipoMovimentacao;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Min;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Movimentacao {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,10 +37,15 @@ public class Movimentacao {
     @Positive(message = "{movimentacao.valor.positive}")
     private BigDecimal valor;
 
-    @Past
+    @PastOrPresent
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate data;
 
     @TipoMovimentacao
     private String tipo;
+
+    //cardinalidade n-1
+    @ManyToOne
+    private Categoria categoria;
     
 }
