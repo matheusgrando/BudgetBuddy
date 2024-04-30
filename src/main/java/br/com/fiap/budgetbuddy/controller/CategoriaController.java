@@ -7,6 +7,9 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("categoria")
+@CacheConfig(cacheNames = "categorias")
 @Slf4j
 public class CategoriaController {
 
@@ -34,38 +38,42 @@ public class CategoriaController {
 
 
     @GetMapping
+    @Cacheable
     public List<Categoria> index() {
         return repository.findAll();
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
+    @CacheEvict(allEntries = true)
     public Categoria create(@RequestBody @Valid Categoria categoria) {
         log.info("cadastrando categoria " + categoria);
         return repository.save(categoria);
     }
-
+    
     @GetMapping("{id}")
     public ResponseEntity<Categoria> show(@PathVariable Long id) {
         log.info("buscar categoria por id {} ", id);
-
+        
         return repository
-                .findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-
+        .findById(id)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+        
     }
-
+    
     @DeleteMapping("{id}")
     @ResponseStatus(NO_CONTENT)
+    @CacheEvict(allEntries = true)
     public void destroy(@PathVariable Long id) {
         log.info("Apagando categoria com id {} ", id);
-
+        
         verifyIfExists(id);
         repository.deleteById(id);
     }
-
+    
     @PutMapping("{id}")
+    @CacheEvict(allEntries = true)
     public Categoria atualizar(@PathVariable Long id, @RequestBody Categoria categoria) {
         log.info("atualizando categoria com id {} para {}", id, categoria);
 
