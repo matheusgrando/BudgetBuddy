@@ -55,7 +55,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                                 .descricao("Mc Donalds")
                                 .data(LocalDate.now())
                                 .valor(new BigDecimal(90))
-                                .tipo("SAIDA")
+                                .tipo("ENTRADA")
                                 .categoria(categoriaRepository.findById(1L).get())
                                 .build(),
                         Movimentacao.builder()
@@ -69,7 +69,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                         Movimentacao.builder()
                                 .id(5L)
                                 .descricao("Livros")
-                                .data(LocalDate.now().minusDays(3))
+                                .data(LocalDate.now().minusMonths(1))
                                 .valor(new BigDecimal(250))
                                 .tipo("SAIDA")
                                 .categoria(categoriaRepository.findById(1L).get())
@@ -87,7 +87,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                                 .descricao("Mercado")
                                 .data(LocalDate.now().minusWeeks(4))
                                 .valor(new BigDecimal(400))
-                                .tipo("SAIDA")
+                                .tipo("ENTRADA")
                                 .categoria(categoriaRepository.findById(3L).get())
                                 .build(),
                         Movimentacao.builder()
