@@ -76,7 +76,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                                 .build(),
                         Movimentacao.builder()
                                 .id(6L)
-                                .descricao("Água")
+                                .descricao("Água")   
                                 .data(LocalDate.now().minusWeeks(1))
                                 .valor(new BigDecimal(50))
                                 .tipo("SAIDA")
